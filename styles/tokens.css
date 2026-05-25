@@ -1,0 +1,248 @@
+/* ============================================================
+   Analizza Design System — Tokens
+   Inspired by Claude.ai's warm palette, applied to a fintech
+   investment context. Light is default; .dark applies on root.
+   ============================================================ */
+
+/* Fonts (Google Fonts subs — see README CAVEATS) */
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* === Brand accent ====================================== */
+  --accent:           #4A1FB8;   /* Indigo violet — the AZ mark color */
+  --accent-hover:     #3D14A8;
+  --accent-press:     #2F0D8A;
+  --accent-soft:      #E8E1F8;   /* tinted bg for accent chips in light */
+  --accent-soft-fg:   #2D0D8A;
+  --accent-ring:      rgba(74, 31, 184, 0.45);
+  --accent-deep:      #270C48;   /* the deepest variant from the logo set */
+
+  /* === Surfaces (light is default) ======================= */
+  --surface-page:     #F5F0E8;   /* page background — warm paper */
+  --surface-card:     #FAF9F5;   /* cards, panels */
+  --surface-input:    #FFFFFF;   /* form fields */
+  --surface-raised:   #FFFFFF;   /* menus, popovers */
+  --surface-sunken:   #EFE9DF;   /* code blocks, well */
+  --surface-hover:    rgba(42, 38, 34, 0.04);
+  --surface-press:    rgba(42, 38, 34, 0.08);
+
+  /* === Foreground ======================================== */
+  --fg-1:             #2A2622;   /* primary text */
+  --fg-2:             #5C544B;   /* secondary text */
+  --fg-3:             #8B8278;   /* tertiary, meta, placeholder */
+  --fg-4:             #B8AFA3;   /* disabled */
+  --fg-on-accent:     #FFFFFF;
+
+  /* === Borders =========================================== */
+  --border-subtle:    rgba(42, 38, 34, 0.08);
+  --border-default:   rgba(42, 38, 34, 0.14);
+  --border-strong:    rgba(42, 38, 34, 0.22);
+  --border-focus:     var(--accent);
+
+  /* === Semantic ========================================== */
+  --pos:              #2F8A5F;   /* gain / up / positive */
+  --pos-soft:         #DBEBE0;
+  --pos-fg:           #1F5A3D;
+  --neg:              #C8483C;   /* loss / down / negative */
+  --neg-soft:         #F4D8D4;
+  --neg-fg:           #832A21;
+  --warn:             #C9883C;
+  --warn-soft:        #F4E4CC;
+  --warn-fg:          #7A4F18;
+  --info:             #4374B5;
+  --info-soft:        #D9E3F0;
+  --info-fg:          #243F66;
+
+  /* === Spacing (4-px base) =============================== */
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-7:  32px;
+  --space-8:  40px;
+  --space-9:  48px;
+  --space-10: 64px;
+  --space-11: 80px;
+  --space-12: 96px;
+
+  /* === Radius ============================================ */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   22px;
+  --radius-pill: 999px;
+
+  /* === Shadows (warm-tinted) ============================= */
+  --shadow-1: 0 1px 2px rgba(42, 38, 34, 0.04), 0 1px 1px rgba(42, 38, 34, 0.03);
+  --shadow-2: 0 4px 12px rgba(42, 38, 34, 0.06), 0 2px 4px rgba(42, 38, 34, 0.04);
+  --shadow-3: 0 24px 48px rgba(42, 38, 34, 0.12), 0 8px 16px rgba(42, 38, 34, 0.06);
+  --shadow-focus: 0 0 0 3px var(--accent-ring);
+  --shadow-inset-press: inset 0 1px 0 rgba(0, 0, 0, 0.06);
+
+  /* === Motion ============================================ */
+  --ease-smooth:  cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:  120ms;
+  --dur-base:  200ms;
+  --dur-slow:  360ms;
+
+  /* === Type (families) =================================== */
+  --font-serif: 'Source Serif 4', 'Tiempos Headline', Georgia, 'Times New Roman', serif;
+  --font-sans:  'Geist', 'Styrene B', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:  'Geist Mono', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* === Type (scale) ====================================== */
+  --text-display-lg: 56px;
+  --text-display:    44px;
+  --text-h1:         32px;
+  --text-h2:         24px;
+  --text-h3:         20px;
+  --text-h4:         16px;
+  --text-body:       15px;
+  --text-body-sm:    14px;
+  --text-meta:       13px;
+  --text-micro:      12px;
+  --text-eyebrow:    11px;
+
+  --lh-tight:  1.1;
+  --lh-snug:   1.25;
+  --lh-normal: 1.5;
+  --lh-loose:  1.65;
+
+  --tracking-tight:   -0.02em;
+  --tracking-normal:  0;
+  --tracking-eyebrow: 0.08em;
+}
+
+/* ============================================================
+   Dark theme
+   ============================================================ */
+.dark, [data-theme="dark"] {
+  --surface-page:    #1A1815;
+  --surface-card:    #221F1B;
+  --surface-input:   #2A2722;
+  --surface-raised:  #2E2A24;
+  --surface-sunken:  #14110F;
+  --surface-hover:   rgba(237, 232, 223, 0.05);
+  --surface-press:   rgba(237, 232, 223, 0.09);
+
+  --fg-1: #EDE8DF;
+  --fg-2: #B6AEA1;
+  --fg-3: #8A8378;
+  --fg-4: #5C554C;
+
+  --border-subtle:  rgba(237, 232, 223, 0.07);
+  --border-default: rgba(237, 232, 223, 0.12);
+  --border-strong:  rgba(237, 232, 223, 0.20);
+
+  --accent:        #7A52E0;   /* lighter in dark for AA contrast */
+  --accent-hover:  #8C66E8;
+  --accent-press:  #6940C9;
+  --accent-soft:   rgba(122, 82, 224, 0.18);
+  --accent-soft-fg:#C8B5F3;
+
+  --pos:      #4FB582;
+  --pos-soft: rgba(79, 181, 130, 0.16);
+  --pos-fg:   #8FD9B0;
+  --neg:      #E07368;
+  --neg-soft: rgba(224, 115, 104, 0.18);
+  --neg-fg:   #F1A89F;
+  --warn:     #E0A85E;
+  --warn-soft:rgba(224, 168, 94, 0.16);
+  --warn-fg:  #ECC58B;
+  --info:     #6F9BD5;
+  --info-soft:rgba(111, 155, 213, 0.16);
+  --info-fg:  #A8C3E4;
+
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.30), 0 1px 1px rgba(0,0,0,0.18);
+  --shadow-2: 0 6px 18px rgba(0,0,0,0.40), 0 2px 6px rgba(0,0,0,0.24);
+  --shadow-3: 0 28px 56px rgba(0,0,0,0.55), 0 10px 20px rgba(0,0,0,0.30);
+  --shadow-inset-press: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* ============================================================
+   Semantic element styles (used directly in product code)
+   ============================================================ */
+html, body {
+  background: var(--surface-page);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--lh-normal);
+  font-feature-settings: 'ss01', 'ss02', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.display-lg, .display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--lh-tight);
+}
+.display-lg { font-size: var(--text-display-lg); }
+.display    { font-size: var(--text-display); }
+
+h1, .h1 {
+  font-family: var(--font-serif);
+  font-size: var(--text-h1);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--lh-tight);
+  color: var(--fg-1);
+}
+h2, .h2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-h3);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+h4, .h4 {
+  font-family: var(--font-sans);
+  font-size: var(--text-h4);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+}
+
+p, .p { font-size: var(--text-body); line-height: var(--lh-normal); color: var(--fg-1); }
+.small { font-size: var(--text-body-sm); color: var(--fg-2); }
+.meta  { font-size: var(--text-meta);    color: var(--fg-3); }
+.micro { font-size: var(--text-micro);   color: var(--fg-3); }
+
+.eyebrow {
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--fg-3);
+}
+
+code, .code, .mono, .tabular {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum', 'zero';
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Money / delta helpers */
+.pos { color: var(--pos); }
+.neg { color: var(--neg); }
+.warn-fg { color: var(--warn); }
+
+::selection { background: var(--accent-soft); color: var(--accent-soft-fg); }
+.dark ::selection { background: var(--accent-soft); color: var(--accent-soft-fg); }

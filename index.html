@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Analizza — AI intelligence for real estate investors</title>
+<link rel="icon" href="assets/favicon.svg" />
+<link rel="stylesheet" href="styles/tokens.css" />
+<style>
+  /* =========================================================
+     analizza.ai — single page
+     ========================================================= */
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--surface-page);
+    color: var(--fg-1);
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    background: color-mix(in srgb, var(--surface-page) 80%, transparent);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--fg-1);
+  }
+  .brand .pip {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+  }
+  .brand .pip svg { display: block; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-links a:not(.btn) {
+    font-size: 14px;
+    color: var(--fg-2);
+    transition: color var(--dur-fast) var(--ease-smooth);
+  }
+  .nav-links a:not(.btn):hover { color: var(--fg-1); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    line-height: 1;
+    transition: background var(--dur-fast) var(--ease-smooth),
+                color var(--dur-fast) var(--ease-smooth),
+                opacity var(--dur-fast) var(--ease-smooth);
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--accent); color: var(--fg-on-accent); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary:active { background: var(--accent-press); box-shadow: var(--shadow-inset-press); }
+  .btn-secondary {
+    background: var(--surface-card);
+    color: var(--fg-1);
+    border-color: var(--border-default);
+  }
+  .btn-secondary:hover { background: var(--surface-hover); }
+  .btn-ghost { background: transparent; color: var(--fg-1); padding-left: 0; }
+  .btn-ghost:hover { color: var(--accent); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    padding: 96px 0 120px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    /* faint accent spotlight (per DS) */
+    content: "";
+    position: absolute;
+    inset: -10% -20% auto -20%;
+    height: 720px;
+    background: radial-gradient(
+      60% 70% at 50% 30%,
+      color-mix(in srgb, var(--accent) 8%, transparent) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero::after {
+    /* hairline at bottom */
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 8px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-card);
+    border: 1px solid var(--border-default);
+    margin-bottom: 40px;
+  }
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--pos);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--pos) 24%, transparent);
+  }
+  .hero-eyebrow span {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-2);
+    letter-spacing: 0.02em;
+  }
+
+  /* Giant Az logomark */
+  .hero-logo {
+    width: 240px;
+    height: 240px;
+    margin: 0 auto 48px;
+    border-radius: 36px;
+    background: var(--accent);
+    display: grid;
+    place-items: center;
+    box-shadow:
+      0 24px 60px -12px color-mix(in srgb, var(--accent) 40%, transparent),
+      0 8px 20px -6px color-mix(in srgb, var(--accent-deep) 30%, transparent);
+    position: relative;
+  }
+  .hero-logo svg { display: block; width: 70%; height: 70%; }
+  .hero-logo::after {
+    /* subtle pip corner indicators — playing-card touch */
+    content: "A";
+    position: absolute;
+    top: 18px; left: 22px;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    line-height: 1;
+  }
+  .hero-logo::before {
+    content: "A";
+    position: absolute;
+    bottom: 18px; right: 22px;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    line-height: 1;
+    transform: rotate(180deg);
+  }
+
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 auto 24px;
+    max-width: 18ch;
+    color: var(--fg-1);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .hero-sub {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--fg-2);
+    max-width: 56ch;
+    margin: 0 auto 40px;
+  }
+  .hero-ctas {
+    display: inline-flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-ctas .btn-primary { padding: 12px 20px; }
+  .hero-ctas .btn-secondary { padding: 12px 18px; }
+
+  /* ---------- Section frame ---------- */
+  section.block {
+    padding: 96px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    align-items: end;
+    margin-bottom: 56px;
+  }
+  .section-head .eyebrow {
+    margin-bottom: 8px;
+  }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-3);
+    letter-spacing: 0.06em;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 8px 0 0 0;
+    max-width: 22ch;
+  }
+  .section-lede {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--fg-2);
+    max-width: 52ch;
+  }
+
+  /* ---------- Products grid ---------- */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .product {
+    background: var(--surface-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    min-height: 460px;
+    transition: border-color var(--dur-base) var(--ease-smooth),
+                transform var(--dur-base) var(--ease-smooth);
+  }
+  .product:hover {
+    border-color: var(--border-strong);
+  }
+  .product-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .product-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  .product-status {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .status-live { background: var(--pos-soft); color: var(--pos-fg); }
+  .status-beta { background: var(--accent-soft); color: var(--accent-soft-fg); }
+  .status-soon { background: var(--surface-sunken); color: var(--fg-2); }
+
+  .product-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--surface-sunken);
+    display: grid;
+    place-items: center;
+    margin-bottom: 24px;
+    color: var(--accent);
+  }
+  .product-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .product h3 {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 0 0 12px;
+  }
+  .product p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--fg-2);
+    margin: 0 0 24px;
+  }
+  .product-output {
+    margin-top: auto;
+    border-top: 1px dashed var(--border-default);
+    padding-top: 16px;
+    display: grid;
+    gap: 8px;
+  }
+  .product-output .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .product-output .k {
+    font-size: 12px;
+    color: var(--fg-3);
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+  .product-output .v {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fg-1);
+    font-variant-numeric: tabular-nums;
+  }
+  .product-output .v.pos { color: var(--pos); }
+  .product-output .v.neg { color: var(--neg); }
+  .product-output .v.warn-fg { color: var(--warn); }
+
+  /* ---------- Consulting section ---------- */
+  .consult-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .consult-text h3.consult-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+  }
+  .consult-text p {
+    color: var(--fg-2);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0 0 16px;
+    max-width: 50ch;
+  }
+  .consult-bullets {
+    margin: 24px 0 32px;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 10px;
+  }
+  .consult-bullets li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 12px;
+    color: var(--fg-1);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .consult-bullets li::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+    border-radius: 4px;
+    background: var(--accent-soft);
+    background-image:
+      linear-gradient(45deg, transparent 40%, var(--accent) 40% 60%, transparent 60%),
+      linear-gradient(-45deg, transparent 40%, var(--accent) 40% 60%, transparent 60%);
+    background-size: 10px 2px, 10px 2px;
+    background-repeat: no-repeat, no-repeat;
+    background-position: 3px 7px, 3px 7px;
+  }
+  .consult-bullets li b {
+    font-weight: 600;
+    color: var(--fg-1);
+  }
+  .consult-bullets li span {
+    color: var(--fg-2);
+  }
+
+  /* Process card */
+  .process {
+    background: var(--surface-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+  }
+  .process-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .process-head .eyebrow { margin: 0; }
+  .process-head .small {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-3);
+  }
+  .process-step {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .process-step:last-child { border-bottom: 0; }
+  .process-step .n {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface-sunken);
+    color: var(--fg-2);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .process-step.done .n {
+    background: var(--accent);
+    color: var(--fg-on-accent);
+  }
+  .process-step .label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .process-step .label b {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--fg-1);
+  }
+  .process-step .label .meta-row {
+    font-size: 12.5px;
+    color: var(--fg-3);
+  }
+  .process-step .dur {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-3);
+    padding: 4px 10px;
+    background: var(--surface-sunken);
+    border-radius: var(--radius-pill);
+  }
+
+  /* ---------- Closer / contact ---------- */
+  .closer {
+    padding: 120px 0 96px;
+    text-align: center;
+    position: relative;
+  }
+  .closer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      40% 80% at 50% 50%,
+      color-mix(in srgb, var(--accent) 6%, transparent) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+  .closer-inner { position: relative; }
+  .closer h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(36px, 5vw, 56px);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 16px auto 20px;
+    max-width: 20ch;
+  }
+  .closer p {
+    color: var(--fg-2);
+    font-size: 17px;
+    max-width: 52ch;
+    margin: 0 auto 36px;
+    line-height: 1.55;
+  }
+  .closer .email-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px 14px 22px;
+    background: var(--surface-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--fg-1);
+    transition: border-color var(--dur-fast) var(--ease-smooth),
+                background var(--dur-fast) var(--ease-smooth);
+  }
+  .closer .email-cta:hover {
+    border-color: var(--accent);
+    background: var(--surface-raised);
+  }
+  .closer .email-cta .arrow {
+    width: 18px; height: 18px;
+    color: var(--accent);
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--border-subtle);
+    padding: 40px 0 56px;
+  }
+  .foot-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .foot-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .foot-left .brand { font-size: 16px; }
+  .foot-left .micro { color: var(--fg-3); }
+  .foot-cols {
+    display: flex;
+    gap: 56px;
+  }
+  .foot-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .foot-col .eyebrow { margin-bottom: 4px; color: var(--fg-3); }
+  .foot-col a, .foot-col span {
+    font-size: 13.5px;
+    color: var(--fg-2);
+    transition: color var(--dur-fast) var(--ease-smooth);
+  }
+  .foot-col a:hover { color: var(--fg-1); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .section-head {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+    .products { grid-template-columns: 1fr; }
+    .consult-grid { grid-template-columns: 1fr; gap: 40px; }
+    .nav-links a:not(.btn) { display: none; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 20px; }
+    .hero { padding: 64px 0 80px; }
+    .hero-logo { width: 180px; height: 180px; border-radius: 28px; }
+    section.block { padding: 64px 0; }
+    .foot-cols { gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" data-screen-label="01 Nav">
+      <span class="pip" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M92 38C70 50 52 78 52 116C52 144 66 162 86 162C100 162 110 154 116 142L86 142C78 142 74 132 80 118C90 92 110 70 124 58Z" fill="#FFFFFF"/>
+          <path d="M116 50L154 162L138 162L100 50Z" fill="#FFFFFF"/>
+        </svg>
+      </span>
+      <span>analizza<span style="color:var(--fg-3); font-family: var(--font-mono); font-size: 13px; margin-left:4px; vertical-align: 2px;">.ai</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#products">Products</a>
+      <a href="#consulting">Consulting</a>
+      <a class="btn btn-primary" href="mailto:contact@analizza.ai">Talk to us</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top" data-screen-label="02 Hero">
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Ace of Analizza · AI for real estate capital</span>
+    </div>
+
+    <div class="hero-logo" role="img" aria-label="Analizza logomark">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M92 38C70 50 52 78 52 116C52 144 66 162 86 162C100 162 110 154 116 142L86 142C78 142 74 132 80 118C90 92 110 70 124 58Z" fill="#FFFFFF"/>
+        <path d="M116 50L154 162L138 162L100 50Z" fill="#FFFFFF"/>
+      </svg>
+    </div>
+
+    <h1>Underwrite real estate <em>with precision.</em></h1>
+    <p class="hero-sub">
+      AI products and advisory for capital allocators evaluating legal,
+      valuation, and construction risk. Built for investors who need
+      conviction before they sign.
+    </p>
+
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#products">See products
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <a class="btn btn-secondary" href="mailto:contact@analizza.ai">Book a session</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="block" id="products" data-screen-label="03 Products">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ 01 / Products</div>
+        <h2 class="section-title">Three lenses on every deal.</h2>
+      </div>
+      <p class="section-lede">
+        Each product is a focused analyst — trained on the questions an
+        institutional investor asks before committing capital. They run
+        independently or together as a full underwriting stack.
+      </p>
+    </div>
+
+    <div class="products">
+
+      <!-- Product 1: Legal Analysis -->
+      <article class="product">
+        <div class="product-head">
+          <span class="product-num">01 / Legal</span>
+          <span class="product-status status-live">Live</span>
+        </div>
+        <div class="product-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+        </div>
+        <h3>Legal analysis</h3>
+        <p>
+          Reviews title chains, encumbrances, zoning permits, and contract
+          clauses against jurisdiction-specific rules. Surfaces every clause
+          that could block, delay, or re-price the transaction.
+        </p>
+        <div class="product-output">
+          <div class="row"><span class="k">Documents reviewed</span><span class="v">142</span></div>
+          <div class="row"><span class="k">Critical findings</span><span class="v neg">3</span></div>
+          <div class="row"><span class="k">Title status</span><span class="v pos">Clean</span></div>
+          <div class="row"><span class="k">Turnaround</span><span class="v">~ 4 h</span></div>
+        </div>
+      </article>
+
+      <!-- Product 2: Valuation & ROI -->
+      <article class="product">
+        <div class="product-head">
+          <span class="product-num">02 / Valuation</span>
+          <span class="product-status status-live">Live</span>
+        </div>
+        <div class="product-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/><path d="m16 9 4 0 0 4"/></svg>
+        </div>
+        <h3>Valuation &amp; ROI</h3>
+        <p>
+          Triangulates comparable transactions, rental yields, and discounted
+          cash flows to model fair value and projected returns under base,
+          downside, and stress scenarios.
+        </p>
+        <div class="product-output">
+          <div class="row"><span class="k">Fair value</span><span class="v">R$ 4.82M</span></div>
+          <div class="row"><span class="k">5-yr IRR</span><span class="v pos">+ 14.8 %</span></div>
+          <div class="row"><span class="k">Cash-on-cash</span><span class="v pos">+ 9.2 %</span></div>
+          <div class="row"><span class="k">Downside</span><span class="v warn-fg">− 6.4 %</span></div>
+        </div>
+      </article>
+
+      <!-- Product 3: Construction Analysis -->
+      <article class="product">
+        <div class="product-head">
+          <span class="product-num">03 / Construction</span>
+          <span class="product-status status-beta">Beta</span>
+        </div>
+        <div class="product-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/><path d="M3 21h18"/></svg>
+        </div>
+        <h3>Construction analysis</h3>
+        <p>
+          Decomposes building plans into a line-item cost model benchmarked
+          against regional pricing. Flags scope gaps, contractor margin
+          drift, and timeline assumptions that break under load.
+        </p>
+        <div class="product-output">
+          <div class="row"><span class="k">Cost / m²</span><span class="v">R$ 4,820</span></div>
+          <div class="row"><span class="k">Vs. regional median</span><span class="v warn-fg">+ 7.1 %</span></div>
+          <div class="row"><span class="k">Schedule risk</span><span class="v warn-fg">Moderate</span></div>
+          <div class="row"><span class="k">Margin variance</span><span class="v">± 3.4 %</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONSULTING ============ -->
+<section class="block" id="consulting" data-screen-label="04 Consulting">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">§ 02 / Advisory</div>
+        <h2 class="section-title">Acquisition advisory for active capital.</h2>
+      </div>
+      <p class="section-lede">
+        When a deal is large, contested, or atypical, the model is a starting
+        point — not a verdict. Our team pairs the product output with hands-on
+        deal work, end to end.
+      </p>
+    </div>
+
+    <div class="consult-grid">
+      <div class="consult-text">
+        <h3 class="consult-title">
+          Independent diligence, from sourcing to close.
+        </h3>
+        <p>
+          We are retained by funds, family offices, and high-conviction
+          individuals to underwrite real estate acquisitions where the
+          downside of being wrong is meaningful. Engagements are scoped to
+          your thesis — never templated.
+        </p>
+
+        <ul class="consult-bullets">
+          <li>
+            <div><b>Thesis alignment</b><br/><span>We codify your buy-box, return targets, and red lines into the analysis stack before sourcing begins.</span></div>
+          </li>
+          <li>
+            <div><b>Deal-by-deal underwriting</b><br/><span>Every shortlisted asset goes through legal, valuation, and construction review with senior analyst sign-off.</span></div>
+          </li>
+          <li>
+            <div><b>Counter-proposal &amp; close support</b><br/><span>We translate findings into pricing adjustments, contract redlines, and a defensible negotiation position.</span></div>
+          </li>
+        </ul>
+
+        <a class="btn btn-primary" href="mailto:contact@analizza.ai?subject=Advisory%20engagement">
+          Start an engagement
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Process card -->
+      <aside class="process" aria-label="Engagement process">
+        <div class="process-head">
+          <span class="eyebrow">Engagement timeline</span>
+          <span class="small">~ 6 weeks typical</span>
+        </div>
+
+        <div class="process-step done">
+          <div class="n">01</div>
+          <div class="label">
+            <b>Thesis &amp; scope</b>
+            <span class="meta-row">Strategy session, buy-box codification</span>
+          </div>
+          <span class="dur">3 d</span>
+        </div>
+
+        <div class="process-step done">
+          <div class="n">02</div>
+          <div class="label">
+            <b>Sourcing &amp; triage</b>
+            <span class="meta-row">Shortlist 8–12 assets, run product stack</span>
+          </div>
+          <span class="dur">2 w</span>
+        </div>
+
+        <div class="process-step">
+          <div class="n">03</div>
+          <div class="label">
+            <b>Deep diligence</b>
+            <span class="meta-row">Legal, valuation, construction sign-off</span>
+          </div>
+          <span class="dur">2 w</span>
+        </div>
+
+        <div class="process-step">
+          <div class="n">04</div>
+          <div class="label">
+            <b>Negotiation &amp; close</b>
+            <span class="meta-row">Pricing, redlines, closing diligence</span>
+          </div>
+          <span class="dur">1–2 w</span>
+        </div>
+
+        <div class="process-step">
+          <div class="n">05</div>
+          <div class="label">
+            <b>Post-close monitoring</b>
+            <span class="meta-row">Optional — quarterly thesis review</span>
+          </div>
+          <span class="dur">Ongoing</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSER / CONTACT ============ -->
+<section class="closer" id="contact" data-screen-label="05 Contact">
+  <div class="wrap closer-inner">
+    <div class="section-num" style="margin-bottom: 8px;">§ 03 / Contact</div>
+    <h2>Bring us your next deal.</h2>
+    <p>
+      Send a short note — the asset, the thesis, the timeline. We reply
+      within one business day with a fit assessment and a recommended path.
+    </p>
+    <a class="email-cta" href="mailto:contact@analizza.ai">
+      contact@analizza.ai
+      <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer data-screen-label="06 Footer">
+  <div class="wrap foot-inner">
+    <div class="foot-left">
+      <a class="brand" href="#top">
+        <span class="pip" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M92 38C70 50 52 78 52 116C52 144 66 162 86 162C100 162 110 154 116 142L86 142C78 142 74 132 80 118C90 92 110 70 124 58Z" fill="#FFFFFF"/>
+            <path d="M116 50L154 162L138 162L100 50Z" fill="#FFFFFF"/>
+          </svg>
+        </span>
+        <span>analizza<span style="color:var(--fg-3); font-family: var(--font-mono); font-size: 13px; margin-left:4px; vertical-align: 2px;">.ai</span></span>
+      </a>
+      <span class="micro">© 2026 Analizza · Az de Analizza</span>
+    </div>
+
+    <div class="foot-cols">
+      <div class="foot-col">
+        <span class="eyebrow">Products</span>
+        <a href="#products">Legal analysis</a>
+        <a href="#products">Valuation &amp; ROI</a>
+        <a href="#products">Construction analysis</a>
+      </div>
+      <div class="foot-col">
+        <span class="eyebrow">Company</span>
+        <a href="#consulting">Advisory</a>
+        <a href="mailto:contact@analizza.ai">Contact</a>
+        <span class="micro">São Paulo · Remote</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
