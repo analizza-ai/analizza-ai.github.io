@@ -1,36 +1,69 @@
 ## Context
 
-The site is a fully static single-page app (HTML + CSS + SVG assets, no build step). It lives in a git repo with no remote yet. Cloudflare Pages can serve static files directly from a GitHub repo branch with zero configuration beyond pointing it at the right directory.
+Three deployment surfaces share one credential pair (`CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`) and one target (`wrangler.toml`). The local shell profile is the single source of truth for credentials — MCP, Wrangler CLI, and Makefile all read from the environment automatically.
+
+```
+~/.bashrc / ~/.zshrc
+  └── CLOUDFLARE_API_TOKEN
+  └── CLOUDFLARE_ACCOUNT_ID
+        │
+        ├── Claude Code MCP  ──▶ conversational deploy / manage
+        │   (global or local config)
+        │
+        ├── make deploy  ──▶ wrangler pages deploy .  (local CI equivalent)
+        │
+        └── GitHub Actions  ──▶ wrangler-action@v3  (automated on push)
+                                  reads secrets.CLOUDFLARE_API_TOKEN
+                                  reads secrets.CLOUDFLARE_ACCOUNT_ID
+```
 
 ## Goals / Non-Goals
 
 **Goals:**
-- Public URL live on `*.pages.dev` immediately after first push to `master`
-- Every subsequent `git push origin master` triggers an automatic redeploy
-- HTTPS enforced by default (Cloudflare-managed cert)
-- `wrangler.toml` checked into the repo for reproducibility
+- One API token, three deploy surfaces, zero credential duplication
+- `make deploy` works locally with the same result as GitHub Actions
+- MCP enables managing the Pages project from Claude Code conversation
+- GitHub Actions auto-deploys on every push to `master`
+- Shell profile changes are idempotent (safe to run setup script twice)
 
 **Non-Goals:**
-- Custom domain (`analizza.ai`) setup — that's a DNS step done after the Pages project is live
-- Preview deployments on PRs — not needed for a solo project at this stage
-- Build pipeline / bundler — the output directory IS the repo root
+- Custom domain (`analizza.ai`) — DNS step after Pages project is live
+- Preview deployments on PRs
+- Build pipeline — output directory is repo root (`.`)
+- Node.js / package.json — Wrangler runs via `npx`
 
 ## Decisions
 
-**Cloudflare Pages over GitHub Pages**
-GitHub Pages would work but Cloudflare Pages gives a global CDN, better performance, and makes the later custom-domain + SSL step simpler (one Cloudflare dashboard, no external DNS proxy needed).
+**`cloudflare/wrangler-action@v3` over deprecated `pages-action`**
+`pages-action` is archived and unmaintained. `wrangler-action@v3` is the official replacement — it accepts any `wrangler` command as its `command:` input, including `pages deploy`.
 
-**`master` branch as production branch**
-Matches the repo's default branch. No `main`/`master` mismatch to manage.
+**MCP: remote server at `https://mcp.cloudflare.com/mcp`**
+Cloudflare runs the MCP server remotely — no local install needed. Claude Code connects via HTTP. Auth is the same `CLOUDFLARE_API_TOKEN` passed as a bearer token. Two install modes:
+- **Global** (`~/.claude/settings.json`) — available in all projects
+- **Local** (`.claude/settings.json`) — scoped to this repo only
 
-**Root directory as publish directory**
-`index.html` is at the repo root alongside `assets/` and `styles/`. No build output folder exists, so the publish directory is `.` (root). Set in `wrangler.toml` as `pages_build_output_dir = "."`.
+**API Token over API Key**
+API Keys are global account credentials (legacy). API Tokens are scoped and revocable — create one with `Cloudflare Pages: Edit` + `Account: Read` permissions only.
 
-**`wrangler.toml` for config as code**
-Avoids dashboard-only config. Any collaborator can see what project name and output dir the site uses. The alternative (dashboard-only) leaves config invisible in the repo.
+**`wrangler.toml` as shared contract**
+Single file declares `name` and `pages_build_output_dir = "."`. Referenced by Makefile (`wrangler pages deploy .`) and GitHub Actions (`command: pages deploy . --project-name=analizza-ai`). Dashboard reads it on first project creation.
+
+**Makefile over shell script**
+`make deploy` is self-documenting, tab-completable, and composable. Matches the mental model of CI — one command, same result locally and remotely.
 
 ## Risks / Trade-offs
 
-- **Cloudflare account required** → User must have (or create) a free Cloudflare account before running `wrangler pages deploy` or connecting via dashboard
-- **First deploy is manual** → The GitHub integration requires authorizing Cloudflare to access the repo via the dashboard; subsequent deploys are automatic
-- **`wrangler.toml` project name must match** → If the Pages project is created via dashboard with a different name than the one in `wrangler.toml`, CLI deploys will target the wrong project. Mitigation: use the same name (`analizza-ai`) in both places
+- **First Pages project creation is manual** → Use MCP (`create Pages project`) or dashboard once; all subsequent deploys are automated
+- **`CLOUDFLARE_ACCOUNT_ID` is not secret but treated as one** → Simpler to put both in GitHub secrets and shell profile than to split them
+- **MCP remote server requires network** → Local Wrangler CLI (`make deploy`) works fully offline once credentials are in env
+- **`wrangler` requires Node.js** → `npx wrangler` pulls it on first run; no global install needed but adds ~2s cold start
+
+## Credentials Reference
+
+```
+Where to get them:
+  CLOUDFLARE_API_TOKEN  → dash.cloudflare.com → My Profile → API Tokens → Create Token
+                          Template: "Edit Cloudflare Workers"
+                          OR custom: Cloudflare Pages:Edit + Account:Read
+  CLOUDFLARE_ACCOUNT_ID → dash.cloudflare.com → any page → right sidebar → Account ID
+```
