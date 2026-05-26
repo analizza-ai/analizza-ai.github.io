@@ -2,7 +2,7 @@
 
 **AI-powered due diligence for real estate investors.**
 
-[analizza.ai](https://analizza.ai).
+[analizza.ai](https://www.analizza.ai)
 
 ---
 
@@ -22,7 +22,7 @@ For acquisitions that go beyond the standard product flow, analizza.ai offers be
 
 ## Website
 
-This repository contains the public marketing site at **[analizza.ai](https://analizza.ai)**.
+This repository contains the public marketing site at **[analizza.ai](https://www.analizza.ai)**.
 
 ### Stack
 
