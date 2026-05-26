@@ -3,7 +3,7 @@
 - [x] 1.1 Add Cloudflare MCP entry to `.mcp.json` at project root (local, this repo only) OR to `~/.claude/settings.json` under `mcpServers` (global, all projects)
 - [x] 1.2 Set `url: https://mcp.cloudflare.com/mcp` and pass `CLOUDFLARE_API_TOKEN` as bearer token in the Authorization header
 - [ ] 1.3 Restart Claude Code and verify the Cloudflare MCP tools are available in the session
-- [ ] 1.4 Use MCP to list Pages projects and confirm account connectivity
+- [ ] 1.4 Use MCP to list Pages projects and confirm account connectivity  
 
 ## 2. Generate Cloudflare Credentials
 
@@ -32,9 +32,9 @@
 
 ## 6. GitHub Actions Workflow
 
-- [ ] 6.1 Add `CLOUDFLARE_API_TOKEN` as a GitHub repository secret (Settings → Secrets → Actions)
-- [ ] 6.2 Add `CLOUDFLARE_ACCOUNT_ID` as a GitHub repository secret
+- [x] 6.1 Use GitHub MCP to set `CLOUDFLARE_API_TOKEN` as a repository secret on `analizza-ai/analizza-ai.github.io`
+- [x] 6.2 Use GitHub MCP to set `CLOUDFLARE_ACCOUNT_ID` as a repository secret on `analizza-ai/analizza-ai.github.io`
 - [x] 6.3 Create `.github/workflows/deploy.yml` using `cloudflare/wrangler-action@v3` with `command: pages deploy . --project-name=analizza-ai` triggered on push to `master`
-- [ ] 6.4 Commit and push the workflow file to `master`
-- [ ] 6.5 Confirm the Actions job runs successfully and a deployment appears in the GitHub Environments tab
-- [ ] 6.6 Verify the live site at `https://analizza-ai.pages.dev` reflects the latest push
+- [x] 6.4 Commit and push the workflow file to `master`
+- [x] 6.5 Confirm the Actions job runs successfully and a deployment appears in the GitHub Environments tab
+- [x] 6.6 Verify the live site at `https://analizza-ai.pages.dev` reflects the latest push
