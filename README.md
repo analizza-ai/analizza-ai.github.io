@@ -2,20 +2,15 @@
 
 **AI-powered due diligence for real estate investors.**
 
-analizza.ai helps investors move faster and with more confidence by turning complex property documents into clear, structured insights — legal risks, valuation logic, and construction cost breakdowns — in minutes, not days.
+[analizza.ai](https://analizza.ai).
 
 ---
 
 ## Products
 
-### Legal Analysis
-Reads contracts, deeds, liens, and encumbrances. Surfaces rights-of-way, easements, and clause-level risks before you close.
-
-### Valuation & ROI
-Runs comparable sales, cap rate scenarios, and cash-flow models against your target property. Outputs a structured investment thesis, not a raw spreadsheet.
-
-### Construction Analysis
-Reviews inspection reports, permit histories, and contractor scopes. Estimates repair costs and flags code issues that affect hold value.
+- Legal Analysis
+- Valuation & ROI
+- Construction Analysis
 
 ---
 
@@ -27,7 +22,7 @@ For acquisitions that go beyond the standard product flow, analizza.ai offers be
 
 ## Website
 
-This repository contains the public marketing site at **[analizza-ai.pages.dev](https://analizza-ai.pages.dev)**.
+This repository contains the public marketing site at **[analizza.ai](https://analizza.ai)**.
 
 ### Stack
 
