@@ -54,7 +54,7 @@ This repository contains the public marketing site at **[analizza.ai](https://ww
 
 Open `index.html` directly in a browser — no build step required.
 
-Run the tests (Node 20+, no packages):
+Run the tests (Node 18+, no packages):
 
 ```bash
 make test

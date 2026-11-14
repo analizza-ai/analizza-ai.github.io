@@ -99,3 +99,6 @@ test('static text equals the PT dictionary (no-JS page is complete)', () => {
 
 test('i18n script loaded as classic deferred script', () =>
   assert.match(html, /<script src="assets\/i18n.js" defer><\/script>/));
+
+test('section links stay visible on small screens', () =>
+  assert.doesNotMatch(html, /\.nav-links a\s*\{\s*display:\s*none/));
