@@ -1,11 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Analizza — AI intelligence for real estate investors</title>
+<title>Analizza — portfólio</title>
+<meta name="description" content="Analizza: estúdio que constrói e investe em produtos de IA." />
 <link rel="icon" href="assets/favicon.svg" />
 <link rel="stylesheet" href="styles/tokens.css" />
+<script src="assets/i18n.js" defer></script>
 <style>
   /* =========================================================
      analizza.ai — single page
@@ -62,6 +64,13 @@
     background: var(--accent);
   }
   .brand .pip svg { display: block; }
+  .brand-tld {
+    color: var(--fg-3);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    margin-left: 4px;
+    vertical-align: 2px;
+  }
   .nav-links {
     display: flex;
     align-items: center;
@@ -259,12 +268,13 @@
     max-width: 52ch;
   }
 
-  /* ---------- Products grid ---------- */
-  .products {
+  /* ---------- Cards ---------- */
+  .cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
+  .cards-4 { grid-template-columns: repeat(4, 1fr); }
+  .cards-2 { grid-template-columns: repeat(2, 1fr); }
   .product {
     background: var(--surface-card);
     border: 1px solid var(--border-default);
@@ -272,7 +282,6 @@
     padding: 28px 28px 24px;
     display: flex;
     flex-direction: column;
-    min-height: 460px;
     transition: border-color var(--dur-base) var(--ease-smooth),
                 transform var(--dur-base) var(--ease-smooth);
   }
@@ -300,29 +309,7 @@
     letter-spacing: 0.06em;
     font-weight: 600;
   }
-  .status-live { background: var(--pos-soft); color: var(--pos-fg); }
-  .status-beta { background: var(--accent-soft); color: var(--accent-soft-fg); }
-  .status-soon { background: var(--surface-sunken); color: var(--fg-2); }
 
-  .product-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: var(--surface-sunken);
-    display: grid;
-    place-items: center;
-    margin-bottom: 24px;
-    color: var(--accent);
-  }
-  .product-icon svg {
-    width: 22px;
-    height: 22px;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
   .product h3 {
     font-family: var(--font-sans);
     font-size: 22px;
@@ -335,165 +322,45 @@
     font-size: 14.5px;
     line-height: 1.55;
     color: var(--fg-2);
-    margin: 0 0 24px;
+    margin: 0;
   }
-  .product-output {
+  .status-equity { background: var(--accent-soft); color: var(--accent-soft-fg); }
+  .status-consulting { background: var(--surface-sunken); color: var(--fg-2); }
+  .card-link {
     margin-top: auto;
-    border-top: 1px dashed var(--border-default);
-    padding-top: 16px;
-    display: grid;
-    gap: 8px;
+    padding-top: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent);
   }
-  .product-output .row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .product-output .k {
-    font-size: 12px;
-    color: var(--fg-3);
-    font-family: var(--font-mono);
-    letter-spacing: 0.02em;
-  }
-  .product-output .v {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--fg-1);
-    font-variant-numeric: tabular-nums;
-  }
-  .product-output .v.pos { color: var(--pos); }
-  .product-output .v.neg { color: var(--neg); }
-  .product-output .v.warn-fg { color: var(--warn); }
+  .card-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-  /* ---------- Consulting section ---------- */
-  .consult-grid {
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap: 56px;
-    align-items: start;
-  }
-  .consult-text h3.consult-title {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    margin: 0 0 16px;
-  }
-  .consult-text p {
-    color: var(--fg-2);
-    font-size: 16px;
-    line-height: 1.6;
-    margin: 0 0 16px;
-    max-width: 50ch;
-  }
-  .consult-bullets {
-    margin: 24px 0 32px;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 10px;
-  }
-  .consult-bullets li {
-    display: grid;
-    grid-template-columns: 22px 1fr;
-    gap: 12px;
-    color: var(--fg-1);
-    font-size: 15px;
-    line-height: 1.5;
-  }
-  .consult-bullets li::before {
-    content: "";
-    width: 16px;
-    height: 16px;
-    margin-top: 4px;
-    border-radius: 4px;
-    background: var(--accent-soft);
-    background-image:
-      linear-gradient(45deg, transparent 40%, var(--accent) 40% 60%, transparent 60%),
-      linear-gradient(-45deg, transparent 40%, var(--accent) 40% 60%, transparent 60%);
-    background-size: 10px 2px, 10px 2px;
-    background-repeat: no-repeat, no-repeat;
-    background-position: 3px 7px, 3px 7px;
-  }
-  .consult-bullets li b {
-    font-weight: 600;
-    color: var(--fg-1);
-  }
-  .consult-bullets li span {
-    color: var(--fg-2);
-  }
-
-  /* Process card */
-  .process {
-    background: var(--surface-card);
+  /* ---------- Language toggle ---------- */
+  .lang-toggle {
+    display: inline-flex;
+    padding: 2px;
     border: 1px solid var(--border-default);
-    border-radius: var(--radius-lg);
-    padding: 32px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-card);
   }
-  .process-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border-subtle);
-    padding-bottom: 16px;
-    margin-bottom: 20px;
-  }
-  .process-head .eyebrow { margin: 0; }
-  .process-head .small {
+  .lang-toggle button {
+    border: 0;
+    background: transparent;
+    color: var(--fg-2);
     font-family: var(--font-mono);
     font-size: 12px;
-    color: var(--fg-3);
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border-radius: var(--radius-pill);
+    transition: background var(--dur-fast) var(--ease-smooth),
+                color var(--dur-fast) var(--ease-smooth);
   }
-  .process-step {
-    display: grid;
-    grid-template-columns: 36px 1fr auto;
-    gap: 16px;
-    align-items: center;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .process-step:last-child { border-bottom: 0; }
-  .process-step .n {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--surface-sunken);
-    color: var(--fg-2);
-    display: grid;
-    place-items: center;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .process-step.done .n {
+  .lang-toggle button:hover { color: var(--fg-1); }
+  .lang-toggle button[aria-pressed="true"] {
     background: var(--accent);
     color: var(--fg-on-accent);
   }
-  .process-step .label {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .process-step .label b {
-    font-size: 14.5px;
-    font-weight: 600;
-    color: var(--fg-1);
-  }
-  .process-step .label .meta-row {
-    font-size: 12.5px;
-    color: var(--fg-3);
-  }
-  .process-step .dur {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--fg-3);
-    padding: 4px 10px;
-    background: var(--surface-sunken);
-    border-radius: var(--radius-pill);
-  }
+  .lang-toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   /* ---------- Closer / contact ---------- */
   .closer {
@@ -513,6 +380,7 @@
     pointer-events: none;
   }
   .closer-inner { position: relative; }
+  .closer-num { margin-bottom: 8px; }
   .closer h2 {
     font-family: var(--font-serif);
     font-weight: 400;
@@ -587,7 +455,6 @@
     transition: color var(--dur-fast) var(--ease-smooth);
   }
   .foot-col a:hover { color: var(--fg-1); }
-
   /* ---------- Responsive ---------- */
   @media (max-width: 960px) {
     .section-head {
@@ -595,15 +462,19 @@
       gap: 12px;
       align-items: start;
     }
-    .products { grid-template-columns: 1fr; }
-    .consult-grid { grid-template-columns: 1fr; gap: 40px; }
-    .nav-links a:not(.btn) { display: none; }
+    .cards-4 { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 13px; }
   }
   @media (max-width: 560px) {
-    .wrap { padding: 0 20px; }
+    .wrap { padding: 0 16px; }
+    .nav-inner { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; row-gap: 8px; }
+    .nav-links { width: 100%; justify-content: flex-start; }
+    .nav-links .lang-toggle { margin-left: auto; }
     .hero { padding: 64px 0 80px; }
     .hero-logo { width: 180px; height: 180px; border-radius: 28px; }
     section.block { padding: 64px 0; }
+    .cards-4, .cards-2 { grid-template-columns: 1fr; }
     .foot-cols { gap: 32px; }
   }
 </style>
@@ -613,254 +484,142 @@
 <!-- ============ NAV ============ -->
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="#top" data-screen-label="01 Nav">
+    <a class="brand" href="#top">
       <span class="pip" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           <path d="M92 38C70 50 52 78 52 116C52 144 66 162 86 162C100 162 110 154 116 142L86 142C78 142 74 132 80 118C90 92 110 70 124 58Z" fill="#FFFFFF"/>
           <path d="M116 50L154 162L138 162L100 50Z" fill="#FFFFFF"/>
         </svg>
       </span>
-      <span>analizza<span style="color:var(--fg-3); font-family: var(--font-mono); font-size: 13px; margin-left:4px; vertical-align: 2px;">.ai</span></span>
+      <span>analizza<span class="brand-tld">.ai</span></span>
     </a>
     <nav class="nav-links">
-      <a href="#products">Products</a>
-      <a href="#consulting">Consulting</a>
-      <a class="btn btn-primary" href="mailto:contact@analizza.ai">Talk to us</a>
+      <a href="#equity" data-i18n="nav.equity">Equity</a>
+      <a href="#consulting" data-i18n="nav.consulting">Consultoria</a>
+      <a href="#contact" data-i18n="nav.contact">Contato</a>
+      <div class="lang-toggle" role="group" aria-label="Idioma / Language"><button type="button" data-lang="pt" aria-pressed="true">PT</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
     </nav>
   </div>
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero" id="top" data-screen-label="02 Hero">
+<section class="hero" id="top">
   <div class="wrap hero-inner">
     <div class="hero-eyebrow">
       <span class="dot" aria-hidden="true"></span>
-      <span>Ace of Analizza · AI for real estate capital</span>
+      <span data-i18n="hero.eyebrow">Analizza · estúdio de produtos de IA</span>
     </div>
 
-    <div class="hero-logo" role="img" aria-label="Analizza logomark">
+    <div class="hero-logo" role="img" aria-label="Analizza">
       <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M92 38C70 50 52 78 52 116C52 144 66 162 86 162C100 162 110 154 116 142L86 142C78 142 74 132 80 118C90 92 110 70 124 58Z" fill="#FFFFFF"/>
         <path d="M116 50L154 162L138 162L100 50Z" fill="#FFFFFF"/>
       </svg>
     </div>
 
-    <h1>Underwrite real estate <em>with precision.</em></h1>
-    <p class="hero-sub">
-      AI products and advisory for capital allocators evaluating legal,
-      valuation, and construction risk. Built for investors who need
-      conviction before they sign.
-    </p>
+    <h1 data-i18n-html="hero.title">Construímos produtos de IA <em>e investimos neles.</em></h1>
+    <p class="hero-sub" data-i18n="hero.sub">A Analizza projeta, desenvolve e opera software com IA. Em alguns produtos entramos como sócios; para outras empresas, entregamos sistemas sob medida.</p>
 
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="#products">See products
+      <a class="btn btn-primary" href="#equity"><span data-i18n="hero.cta.primary">Ver portfólio</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
-      <a class="btn btn-secondary" href="mailto:contact@analizza.ai">Book a session</a>
+      <a class="btn btn-secondary" href="#contact" data-i18n="hero.cta.secondary">Fale conosco</a>
     </div>
   </div>
 </section>
 
-<!-- ============ PRODUCTS ============ -->
-<section class="block" id="products" data-screen-label="03 Products">
+<!-- ============ EQUITY ============ -->
+<section class="block" id="equity">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="section-num">§ 01 / Products</div>
-        <h2 class="section-title">Three lenses on every deal.</h2>
+        <div class="section-num" data-i18n="equity.num">§ 01 / Equity</div>
+        <h2 class="section-title" data-i18n="equity.title">Produtos em que somos sócios.</h2>
       </div>
-      <p class="section-lede">
-        Each product is a focused analyst — trained on the questions an
-        institutional investor asks before committing capital. They run
-        independently or together as a full underwriting stack.
-      </p>
+      <p class="section-lede" data-i18n="equity.lede">Apps que ajudamos a construir do zero e nos quais a Analizza tem participação.</p>
     </div>
 
-    <div class="products">
-
-      <!-- Product 1: Legal Analysis -->
-      <article class="product">
+    <div class="cards cards-4">
+      <article class="product" data-project="auction">
         <div class="product-head">
-          <span class="product-num">01 / Legal</span>
-          <span class="product-status status-live">Live</span>
+          <span class="product-num">01</span>
+          <span class="product-status status-equity" data-i18n="badge.equity">Equity</span>
         </div>
-        <div class="product-icon">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
-        </div>
-        <h3>Legal analysis</h3>
-        <p>
-          Reviews title chains, encumbrances, zoning permits, and contract
-          clauses against jurisdiction-specific rules. Surfaces every clause
-          that could block, delay, or re-price the transaction.
-        </p>
-        <div class="product-output">
-          <div class="row"><span class="k">Documents reviewed</span><span class="v">142</span></div>
-          <div class="row"><span class="k">Critical findings</span><span class="v neg">3</span></div>
-          <div class="row"><span class="k">Title status</span><span class="v pos">Clean</span></div>
-          <div class="row"><span class="k">Turnaround</span><span class="v">~ 4 h</span></div>
-        </div>
+        <h3>Analizza Auction</h3>
+        <p data-i18n="card.auction.desc">Agente de IA que analisa leilões de imóveis, disponível pela web e como servidor MCP para outros agentes.</p>
       </article>
 
-      <!-- Product 2: Valuation & ROI -->
-      <article class="product">
+      <article class="product" data-project="yeroon">
         <div class="product-head">
-          <span class="product-num">02 / Valuation</span>
-          <span class="product-status status-live">Live</span>
+          <span class="product-num">02</span>
+          <span class="product-status status-equity" data-i18n="badge.equity">Equity</span>
         </div>
-        <div class="product-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/><path d="m16 9 4 0 0 4"/></svg>
-        </div>
-        <h3>Valuation &amp; ROI</h3>
-        <p>
-          Triangulates comparable transactions, rental yields, and discounted
-          cash flows to model fair value and projected returns under base,
-          downside, and stress scenarios.
-        </p>
-        <div class="product-output">
-          <div class="row"><span class="k">Fair value</span><span class="v">R$ 4.82M</span></div>
-          <div class="row"><span class="k">5-yr IRR</span><span class="v pos">+ 14.8 %</span></div>
-          <div class="row"><span class="k">Cash-on-cash</span><span class="v pos">+ 9.2 %</span></div>
-          <div class="row"><span class="k">Downside</span><span class="v warn-fg">− 6.4 %</span></div>
-        </div>
+        <h3>Yeroon</h3>
+        <p data-i18n="card.yeroon.desc">Plataforma white-label para lançar um app com a própria marca, mantendo os dados sob seu controle.</p>
+        <a class="card-link" href="https://yeroon.video" target="_blank" rel="noopener"><span data-i18n="card.visit">Visitar site</span> <span aria-hidden="true">↗</span></a>
       </article>
 
-      <!-- Product 3: Construction Analysis -->
-      <article class="product">
+      <article class="product" data-project="play">
         <div class="product-head">
-          <span class="product-num">03 / Construction</span>
-          <span class="product-status status-beta">Beta</span>
+          <span class="product-num">03</span>
+          <span class="product-status status-equity" data-i18n="badge.equity">Equity</span>
         </div>
-        <div class="product-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/><path d="M3 21h18"/></svg>
-        </div>
-        <h3>Construction analysis</h3>
-        <p>
-          Decomposes building plans into a line-item cost model benchmarked
-          against regional pricing. Flags scope gaps, contractor margin
-          drift, and timeline assumptions that break under load.
-        </p>
-        <div class="product-output">
-          <div class="row"><span class="k">Cost / m²</span><span class="v">R$ 4,820</span></div>
-          <div class="row"><span class="k">Vs. regional median</span><span class="v warn-fg">+ 7.1 %</span></div>
-          <div class="row"><span class="k">Schedule risk</span><span class="v warn-fg">Moderate</span></div>
-          <div class="row"><span class="k">Margin variance</span><span class="v">± 3.4 %</span></div>
-        </div>
+        <h3>Yeroon Play</h3>
+        <p data-i18n="card.play.desc">Streaming de vídeo próprio: upload direto para object storage e reprodução no navegador, sem depender de um serviço de streaming de mercado.</p>
       </article>
 
+      <article class="product" data-project="ralvin">
+        <div class="product-head">
+          <span class="product-num">04</span>
+          <span class="product-status status-equity" data-i18n="badge.equity">Equity</span>
+        </div>
+        <h3>Ralvin</h3>
+        <p data-i18n="card.ralvin.desc">Plataforma de ensino (Ralvin School) e marketplace de skills para agentes de IA.</p>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- ============ CONSULTING ============ -->
-<section class="block" id="consulting" data-screen-label="04 Consulting">
+<section class="block" id="consulting">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="section-num">§ 02 / Advisory</div>
-        <h2 class="section-title">Acquisition advisory for active capital.</h2>
+        <div class="section-num" data-i18n="consulting.num">§ 02 / Consultoria</div>
+        <h2 class="section-title" data-i18n="consulting.title">Sistemas que entregamos para clientes.</h2>
       </div>
-      <p class="section-lede">
-        When a deal is large, contested, or atypical, the model is a starting
-        point — not a verdict. Our team pairs the product output with hands-on
-        deal work, end to end.
-      </p>
+      <p class="section-lede" data-i18n="consulting.lede">Projetos de consultoria em que desenhamos e construímos o software de ponta a ponta.</p>
     </div>
 
-    <div class="consult-grid">
-      <div class="consult-text">
-        <h3 class="consult-title">
-          Independent diligence, from sourcing to close.
-        </h3>
-        <p>
-          We are retained by funds, family offices, and high-conviction
-          individuals to underwrite real estate acquisitions where the
-          downside of being wrong is meaningful. Engagements are scoped to
-          your thesis — never templated.
-        </p>
-
-        <ul class="consult-bullets">
-          <li>
-            <div><b>Thesis alignment</b><br/><span>We codify your buy-box, return targets, and red lines into the analysis stack before sourcing begins.</span></div>
-          </li>
-          <li>
-            <div><b>Deal-by-deal underwriting</b><br/><span>Every shortlisted asset goes through legal, valuation, and construction review with senior analyst sign-off.</span></div>
-          </li>
-          <li>
-            <div><b>Counter-proposal &amp; close support</b><br/><span>We translate findings into pricing adjustments, contract redlines, and a defensible negotiation position.</span></div>
-          </li>
-        </ul>
-
-        <a class="btn btn-primary" href="mailto:contact@analizza.ai?subject=Advisory%20engagement">
-          Start an engagement
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-      </div>
-
-      <!-- Process card -->
-      <aside class="process" aria-label="Engagement process">
-        <div class="process-head">
-          <span class="eyebrow">Engagement timeline</span>
-          <span class="small">~ 6 weeks typical</span>
+    <div class="cards cards-2">
+      <article class="product" data-project="eaf">
+        <div class="product-head">
+          <span class="product-num">01</span>
+          <span class="product-status status-consulting" data-i18n="badge.consulting">Consultoria</span>
         </div>
+        <h3>EAF Documents System</h3>
+        <p data-i18n="card.eaf.desc">Envio, classificação, assinatura e busca de documentos, com um agente de IA (Ólly) e um gateway MCP que conecta os sistemas da instituição.</p>
+      </article>
 
-        <div class="process-step done">
-          <div class="n">01</div>
-          <div class="label">
-            <b>Thesis &amp; scope</b>
-            <span class="meta-row">Strategy session, buy-box codification</span>
-          </div>
-          <span class="dur">3 d</span>
+      <article class="product" data-project="ser">
+        <div class="product-head">
+          <span class="product-num">02</span>
+          <span class="product-status status-consulting" data-i18n="badge.consulting">Consultoria</span>
         </div>
-
-        <div class="process-step done">
-          <div class="n">02</div>
-          <div class="label">
-            <b>Sourcing &amp; triage</b>
-            <span class="meta-row">Shortlist 8–12 assets, run product stack</span>
-          </div>
-          <span class="dur">2 w</span>
-        </div>
-
-        <div class="process-step">
-          <div class="n">03</div>
-          <div class="label">
-            <b>Deep diligence</b>
-            <span class="meta-row">Legal, valuation, construction sign-off</span>
-          </div>
-          <span class="dur">2 w</span>
-        </div>
-
-        <div class="process-step">
-          <div class="n">04</div>
-          <div class="label">
-            <b>Negotiation &amp; close</b>
-            <span class="meta-row">Pricing, redlines, closing diligence</span>
-          </div>
-          <span class="dur">1–2 w</span>
-        </div>
-
-        <div class="process-step">
-          <div class="n">05</div>
-          <div class="label">
-            <b>Post-close monitoring</b>
-            <span class="meta-row">Optional — quarterly thesis review</span>
-          </div>
-          <span class="dur">Ongoing</span>
-        </div>
-      </aside>
+        <h3>SER</h3>
+        <p data-i18n="card.ser.desc">Gestão de contas e carga de arquivos de projetos, com fluxo de aprovação.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- ============ CLOSER / CONTACT ============ -->
-<section class="closer" id="contact" data-screen-label="05 Contact">
+<!-- ============ CONTACT ============ -->
+<section class="closer" id="contact">
   <div class="wrap closer-inner">
-    <div class="section-num" style="margin-bottom: 8px;">§ 03 / Contact</div>
-    <h2>Bring us your next deal.</h2>
-    <p>
-      Send a short note — the asset, the thesis, the timeline. We reply
-      within one business day with a fit assessment and a recommended path.
-    </p>
+    <div class="section-num closer-num" data-i18n="contact.num">§ 03 / Contato</div>
+    <h2 data-i18n="contact.title">Vamos conversar.</h2>
+    <p data-i18n="contact.lede">Quer uma parceria em um produto ou um sistema sob medida? Mande uma mensagem curta e respondemos em até um dia útil.</p>
     <a class="email-cta" href="mailto:contact@analizza.ai">
       contact@analizza.ai
       <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -869,7 +628,7 @@
 </section>
 
 <!-- ============ FOOTER ============ -->
-<footer data-screen-label="06 Footer">
+<footer>
   <div class="wrap foot-inner">
     <div class="foot-left">
       <a class="brand" href="#top">
@@ -879,23 +638,21 @@
             <path d="M116 50L154 162L138 162L100 50Z" fill="#FFFFFF"/>
           </svg>
         </span>
-        <span>analizza<span style="color:var(--fg-3); font-family: var(--font-mono); font-size: 13px; margin-left:4px; vertical-align: 2px;">.ai</span></span>
+        <span>analizza<span class="brand-tld">.ai</span></span>
       </a>
-      <span class="micro">© 2026 Analizza · Az de Analizza</span>
+      <span class="micro" data-i18n="footer.copy">© 2026 Analizza</span>
     </div>
 
     <div class="foot-cols">
       <div class="foot-col">
-        <span class="eyebrow">Products</span>
-        <a href="#products">Legal analysis</a>
-        <a href="#products">Valuation &amp; ROI</a>
-        <a href="#products">Construction analysis</a>
+        <span class="eyebrow" data-i18n="footer.portfolio">Portfólio</span>
+        <a href="#equity" data-i18n="nav.equity">Equity</a>
+        <a href="#consulting" data-i18n="nav.consulting">Consultoria</a>
       </div>
       <div class="foot-col">
-        <span class="eyebrow">Company</span>
-        <a href="#consulting">Advisory</a>
-        <a href="mailto:contact@analizza.ai">Contact</a>
-        <span class="micro">São Paulo · Remote</span>
+        <span class="eyebrow" data-i18n="footer.company">Empresa</span>
+        <a href="#contact" data-i18n="nav.contact">Contato</a>
+        <span class="micro" data-i18n="footer.place">São Paulo · Remoto</span>
       </div>
     </div>
   </div>
